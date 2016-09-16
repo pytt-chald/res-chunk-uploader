@@ -779,6 +779,11 @@
         if(found) return(true);
       }
 
+      //pytt edit: following 1 line : sort files by file size
+	//$.files.sort(function(a, b){return a.size-b.size});
+      //pytt edit: following 1 line : change file order
+	$.files.push($.files.shift());
+
       // Now, simply look for the next, best thing to upload
       $h.each($.files, function(file){
         if(file.isPaused()===false){
