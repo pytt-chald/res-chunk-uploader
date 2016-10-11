@@ -1,16 +1,44 @@
 <!DOCTYPE html>
 <html>
+<style>
+<style>
+#resultTable {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+#resultTable td, #resultTable th {
+	border: 1px solid #ddd;
+	text-align: center;
+	padding: 2px;
+}
+
+#resultTable tr:nth-child(even){background-color: #f2f2f2}
+
+#resultTable tr:hover {background-color: #ddd;}
+
+#resultTable th {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background-color: #4CAF50;
+	color: white;
+}
+</style>
+
+</style>
+
 <head lang="en">
 	<meta charset="UTF-8">
 	<title>Resumable File Upload</title>
 	<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
+	<link href="custom_css/styles1.css" rel="stylesheet">
 	<script src="bower_components/resumable.js/resumable.js" type="application/javascript"></script>
 	<script src="bower_components/jquery/dist/jquery.min.js" type="application/javascript"></script>
 	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js" type="application/javascript"></script>
 </head>
 <body>
-<div class="container" style="padding-top: 100px;">
+<div class="container"   style="padding-top: 50px;">
 
 	<div class="row">
 		<div class="col-lg-offset-2 col-lg-8">
@@ -21,14 +49,15 @@
 
 		<div class="col-lg-offset-2 col-lg-8">
 			<button type="button" class="btn btn-success" aria-label="Add file" id="add-file-btn">
-				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add file
+				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add files
 			</button>
-			<button type="button" class="btn btn-info" aria-label="Start upload" id="start-upload-btn" onmouseup="timer.start('tst');">
+			<button type="button" class="btn btn-info" aria-label="Start upload" id="start-upload-btn" onclick="timer.start('tst');">
 				<span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Start upload
 			</button>
-			<button type="button" class="btn btn-warning" aria-label="Pause upload" id="pause-upload-btn" onmouseup="timer.stop('tst');">
+			<button type="button" class="btn btn-warning" aria-label="Pause upload" id="pause-upload-btn" onclick="timer.stop('tst');">
 				<span class="glyphicon glyphicon-pause " aria-hidden="true"></span> Pause upload
 			</button>
+			<input id="tst" readonly/>
 		</div>
 
 		<div class="col-lg-offset-2 col-lg-8">
@@ -41,8 +70,74 @@
 			</p>
 		</div>
 	</div>
-	<div id="results" class="panel"></div>
-<input id="tst" readonly/>
+
+        <div id="results" class="files">
+	</div>
+
+	<a href='#' class='advanced'>Custom upload (advanced)</a>
+
+	<div id='advancedOptions' class="options">
+	</br>	chunksize:
+		<select id="chunksize">
+			<option value="0.2">0.2</option>
+			<option value="0.5">0.5</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="5">5</option>
+			<option value="10">10</option>
+			<option value="20">20</option>
+			<option value="50">50</option>
+			<option value="100">100</option>
+		</select> MB
+		</br>
+		simultaneous chunks uploads:
+		<select id="simultaneous_uploads">
+			<option value="5">5</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="10">10</option>
+			<option value="20">20</option>
+			<option value="50">50</option>
+			<option value="100">100</option>
+			<option value="200">200</option>
+			<option value="1000">1000</option>
+			<option value="2000">2000</option>
+
+		</select>
+		</br>
+		<button onclick="generate_resumable()">Apply changes</button>
+
+	
+	</div>
+
+	<table id="resultTable" style="width:100%">
+        <caption>Upload results:</caption>
+        <tr>
+                <th>File name</th>
+                <th>type</th>
+                <th>size</th>
+                <th># chunks</th>
+                <th>chunk size</th>
+                <th>upload time</th>
+        </tr>
+        </table>
+
+
+	<script type='text/javascript'>
+		$(document).ready(function () {
+			$('#advancedOptions').hide();
+			$('.advanced').click(function() {
+				if ($('#advancedOptions').is(':hidden')) {
+					$('#advancedOptions').slideDown();
+				}
+				else {
+					$('#advancedOptions').slideUp();
+				}
+			});
+		});
+	</script>
+
 
 <script src="scripts/res_upload.js"></script> 
 <script src="scripts/timer.js"></script>

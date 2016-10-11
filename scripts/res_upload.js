@@ -107,16 +107,15 @@ function generate_resumable()
 			//data:    {"postComment":""},
 			success: function(data) {
 				stats=data.split(":");
-				merge_time=stats[0];
-				c_num=stats[1];
-				c_size=stats[2];
+				c_num=stats[0];
+				c_size=stats[1];
 
 				var c=document.getElementById(file.uniqueIdentifier );
-				c.innerHTML+=" file uploaded <a target='_blank' href='uploads/"+file.uniqueIdentifier+"'> here</a> "+
+				c.innerHTML+=" file uploaded <a target='_blank' href='uploads/"+chunk_size+'.'+file.uniqueIdentifier+"'> here</a> "+
 				"<button onclick=\"prompt('Press Ctrl + C, then Enter to copy to clipboard','"+ window.location.protocol  +
 				"//" + window.location.host +
 				"/.uploader106/uploads/"+file.uniqueIdentifier+
-				"')\">Click to Copy URL</button> </br>"; //<table><tr><td> merge time:"+merge_time+"s </td><td> number of chunks: "+c_num+" </td> <td> chunk size: "+c_size+
+				"')\">Click to Copy URL</button> </br>"; //<table><tr><td> number of chunks: "+c_num+" </td> <td> chunk size: "+c_size+
 				//" </td><td> upload time: "+$("#tst").val()+" </td></tr></table>";
 
 
@@ -130,16 +129,14 @@ function generate_resumable()
 				var cell3 = row.insertCell(2);
                                 var cell4 = row.insertCell(3);
 				var cell5 = row.insertCell(4);
-                                var cell6 = row.insertCell(5);
-				var cell7 = row.insertCell(6);
+				var cell6 = row.insertCell(5);
 
     				cell1.innerHTML = file.fileName;
     				cell2.innerHTML = file.file.type;
 				cell3.innerHTML = file.file.size;
-                                cell4.innerHTML = c_num;
+				cell4.innerHTML = c_num;
 				cell5.innerHTML = c_size;
-                                cell6.innerHTML = merge_time;
-                                cell7.innerHTML = $("#tst").val();
+				cell6.innerHTML = $("#tst").val();
 			},
 			error:   function(jqXHR, textStatus, errorThrown) {
 				alert("Error, status = " + textStatus + ", " +
@@ -147,7 +144,7 @@ function generate_resumable()
 				);
 			}
 		});
-		$('[id="' + file.uniqueIdentifier +'"]').find('prog').html('(upload complete please wait chunk merging...)');
+		$('[id="' + file.uniqueIdentifier +'"]').find('prog').html('(upload complete please wait...)');
 	});
 
 
